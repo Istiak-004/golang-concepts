@@ -1,0 +1,33 @@
+package main
+
+
+// Violates ISP
+type DocumentProcessor interface {
+    Read(file string) ([]byte, error)
+    Write(file string, data []byte) error
+    Print(data []byte) error
+    Fax(data []byte) error
+    Scan(file string) ([]byte, error)
+}
+
+
+// Properly segregated interfaces
+type Reader interface {
+    Read(file string) ([]byte, error)
+}
+
+type Writer interface {
+    Write(file string, data []byte) error
+}
+
+type Printer interface {
+    Print(data []byte) error
+}
+
+type Faxer interface {
+    Fax(data []byte) error
+}
+
+type Scanner interface {
+    Scan(file string) ([]byte, error)
+}
