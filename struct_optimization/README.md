@@ -25,8 +25,8 @@ Discard the last 7 bytes, as they are not part of B.
 Combine the extracted bytes to reconstruct the value of B.
 If the value of B is stored at an address aligned with the CPU's word size, the CPU can fetch all 8 bytes in a single operation with no extra filtering or combining required:
 
-  0    -    8   9   10  11  12  13  14  15  16
-│ A │ ... │ B │ B │ B │ B │ B │ B │ B │ B | C
+    0    -    8   9   10  11  12  13  14  15  16
+    │ A │ ... │ B │ B │ B │ B │ B │ B │ B │ B | C
 In this illustration, B is stored at address 8. Which aligns with the word size of our 64-bit system. This allows the CPU to quickly fetch the data in a single step (or a single CPU cycle), rather than having to perform 5 steps as in the earlier illustration.
 
 Now, imagine that our Example struct is part of an array:
@@ -34,12 +34,12 @@ Now, imagine that our Example struct is part of an array:
 examples := [2]Example{e1, e2}
 Which do you think is more efficient, starting the second struct at index 17?
 
-  0    -    8   9   10  11  12  13  14  15  16  17
-│ A │ ... │ B │ B │ B │ B │ B │ B │ B │ B | C | A |
+    0    -    8   9   10  11  12  13  14  15  16  17
+    │ A │ ... │ B │ B │ B │ B │ B │ B │ B │ B | C | A |
 Or starting it at an address that aligns with the CPU word size?
 
-...   10  11  12  13  14  15  16   -    24
-... │ B │ B │ B │ B │ B │ B | C | ... | A |
+    ...   10  11  12  13  14  15  16   -    24
+    ... │ B │ B │ B │ B │ B │ B | C | ... | A |
 By skipping addresses 17 to 23, the second element of the array can start at an address aligned with the CPU's word size (address 24), making it more efficient to fetch fields from the second item.
 
 # Struct Padding
